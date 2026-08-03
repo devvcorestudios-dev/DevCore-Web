@@ -1,219 +1,243 @@
-body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: rgb(0, 0, 0);
-            color: white;
-}
 /* ==========================================================================
-   ULTRA-STABLE WHITE GLASS NAVIGATION BAR
+   GLOBAL RESET & BASE
    ========================================================================== */
-.devcore-header {
-    position: sticky; 
-    top: 20px; 
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto; 
-    z-index: 9999; 
-    
-    /* The White Glassmorphism Magic */
-    background-color: rgba(255, 255, 255, 0.75); 
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow to lift it off the page */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.devcore-nav {
+body {
+    background-color: #050505; /* Deep, cinematic black */
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   LIQUID GLASS NAVIGATION
+   ========================================================================== */
+.devcore-header {
+    position: fixed; 
+    top: 30px; 
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 9999; 
+}
+
+.liquid-nav {
+    width: 90%;
+    max-width: 900px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 25px;
-    height: 75px;
+    padding: 0 30px;
+    
+    /* TRUE LIQUID GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.03); /* Almost entirely transparent */
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    
+    /* Highlights to catch the light */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    
+    border-radius: 50px; 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
-/* LOGO STYLING */
 .nav-logo a {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 800;
-    color: #0f172a; /* Dark sleek slate text */
+    color: #ffffff;
     text-decoration: none;
-    letter-spacing: -0.5px;
+    letter-spacing: 1px;
 }
 
-/* DESKTOP LINKS */
 .nav-links {
     display: flex;
-    gap: 35px;
+    gap: 40px;
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #334155;
-    font-weight: 600;
+    color: #a0a0a0;
+    font-weight: 500;
     font-size: 0.95rem;
     transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #0284c7; /* Vibrant agency blue */
+    color: #ffffff;
 }
 
-/* ==========================================================================
-   DROPDOWNS (Formerly "Frustration")
-   ========================================================================== */
-.dropdown {
-    position: relative;
-    display: inline-block;
-    padding: 10px 0; /* Creates a safe hover bridge */
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 10px;
-    min-width: 220px;
-    
-    /* Dropdown Glass Effect */
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(200, 200, 200, 0.3);
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.dropdown-content a {
-    display: block;
-    padding: 14px 20px;
-    color: #334155;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-align: left;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.dropdown-content a:hover {
-    background-color: rgba(2, 132, 199, 0.08);
-    color: #0284c7;
-}
-
-/* Show dropdown on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* ==========================================================================
-   AVATAR / CLIENT PORTAL
-   ========================================================================== */
-.avatar-wrapper {
-    position: relative;
-    padding: 10px 0;
+/* AVATAR */
+.nav-actions {
+    display: flex;
+    align-items: center;
 }
 
 .user-avatar {
-    width: 45px;
-    height: 45px;
-    background-color: #0f172a; /* Dark circle to contrast the white bar */
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    transition: background 0.3s ease;
 }
 
 .user-avatar:hover {
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .user-avatar span {
     color: #ffffff;
     font-weight: bold;
-    font-size: 1rem;
-    letter-spacing: 1px;
-}
-
-/* Reusing dropdown logic for the avatar menu */
-.avatar-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 10px;
-    min-width: 200px;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(200, 200, 200, 0.3);
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.avatar-wrapper:hover .avatar-dropdown {
-    display: block;
-}
-
-.client-header {
-    padding: 14px 20px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #94a3b8;
-    background-color: #f8fafc;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    letter-spacing: 1px;
-}
-
-.avatar-dropdown a {
-    display: block;
-    padding: 12px 20px;
-    color: #334155;
     font-size: 0.9rem;
-    text-decoration: none;
-}
-
-.avatar-dropdown a:hover {
-    background-color: rgba(2, 132, 199, 0.08);
 }
 
 /* ==========================================================================
-   MOBILE RESPONSIVENESS
+   CENTERED HERO SECTION
    ========================================================================== */
-.hamburger-btn {
-    display: none;
-    background: transparent;
-    border: none;
-    width: 32px;
-    cursor: pointer;
-    color: #0f172a;
+.hero-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh; /* Full screen height */
+    padding: 0 20px;
 }
 
-@media (max-width: 900px) {
-    .nav-links, .avatar-wrapper {
-        display: none; /* Hides desktop links on small screens */
-    }
-    .hamburger-btn {
-        display: block; /* Shows the hamburger button */
-    }
+.hero-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    color: #38bdf8;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
 }
-/* Update the cards to look like sleek UI components */
+
+.hero-badge .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #38bdf8;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #38bdf8;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+}
+
+.hero-desc {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    max-width: 550px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-blue {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+
+.btn-blue:hover {
+    background-color: #0369a1;
+}
+
+.btn-dark {
+    background-color: transparent;
+    color: #a0a0a0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-dark:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   SERVICES SECTION
+   ========================================================================== */
+.expertise-section {
+    padding: 10vh 5vw;
+    text-align: center;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: #a0a0a0;
+    margin-bottom: 60px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .service-card {
-    background-color: #1e293b; /* Slightly lighter slate */
+    background-color: #0a0a0a;
     padding: 40px;
-    border-radius: 16px; /* Smooth, modern curves */
-    border: 1px solid #334155; /* Subtle border */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    border: 1px solid #1a1a1a;
+    text-align: left;
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .service-card:hover {
     transform: translateY(-8px);
-    border-color: #60a5fa; /* A clean, electric blue highlight on hover */
+    border-color: #38bdf8;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: #888888;
+    line-height: 1.6;
 }

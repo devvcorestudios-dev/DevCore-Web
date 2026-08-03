@@ -8,80 +8,44 @@
 </head>
 <body>
 
-    <!-- ==========================================================================
-     WHITE GLASS HEADER
-     ========================================================================== -->
-<header class="devcore-header">
-    <nav class="devcore-nav">
-        
-        <!-- LOGO SECTION (Text Instead of Image) -->
-        <div class="nav-logo">
-            <a href="index.html">DevCore Studios</a>
-        </div>
+    <!-- LIQUID GLASS HEADER -->
+    <header class="devcore-header">
+        <nav class="liquid-nav">
+            <div class="nav-logo">
+                <a href="index.html">DevCore</a>
+            </div>
 
-        <!-- MAIN DESKTOP NAVIGATION -->
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            
-            <!-- Services Dropdown -->
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Capabilities</a>
-                <div class="dropdown-content">
-                    <a href="#">Frontend & Backend</a>
-                    <a href="#">Custom Software</a>
-                    <a href="#">System Architecture</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Capabilities</a></li>
+                <li><a href="#">Hosting</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="user-avatar">
+                    <span>AV</span>
                 </div>
-            </li>
-
-            <!-- Hosting Dropdown -->
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Hosting</a>
-                <div class="dropdown-content">
-                    <a href="#">Zero-Hassle Deployments</a>
-                    <a href="#">Managed Servers</a>
-                </div>
-            </li>
-        </ul>
-
-        <!-- CLIENT PORTAL & AVATAR -->
-        <div class="avatar-wrapper">
-            <div class="user-avatar" id="avatarTrigger">
-                <span>AV</span>
             </div>
-            
-            <div class="avatar-dropdown" id="avatarDropdown">
-                <div class="client-header">CLIENT: <span>Guest</span></div>
-                <a href="login.html">🔐 Authenticate</a>
-                <a href="register.html">📝 Open Account</a>
-                <a href="settings.html" style="display: none;">⚙️ Portal Settings</a>
-            </div>
+        </nav>
+    </header>
+
+    <!-- CENTERED HERO SECTION -->
+    <section class="hero-centered">
+        <!-- Glowing top badge -->
+        <div class="hero-badge">
+            <span class="dot"></span> ENTERPRISE GRADE SYSTEMS
         </div>
-
-        <!-- MOBILE HAMBURGER BUTTON -->
-        <button id="mobileMenuBtn" class="hamburger-btn" aria-label="Toggle Menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-
-    </nav>
-</header>
-
-    <!-- HERO SECTION -->
-    <section class="hero-container">
-        <!-- YOUR WHITE GLASS NAV BAR GOES HERE -->
         
-        <div class="hero-content">
-            <h1 class="hero-headline">Building Digital<br>Experiences.</h1>
-            <p class="hero-subtext">From custom software to full-stack web platforms and zero-hassle hosting. We build it, ship it, and scale it.</p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary">Our Services</a>
-                <a href="#" class="btn btn-outline">Start a Project ➔</a>
-            </div>
+        <h1 class="hero-title">Next-Gen<br>Software Solutions</h1>
+        <p class="hero-desc">Fail-safe backend architectures and stunning full-stack interfaces built for client scale.</p>
+        
+        <div class="hero-actions">
+            <a href="#services" class="btn btn-blue">Explore Infrastructure ➔</a>
+            <a href="#" class="btn btn-dark">Client Portal</a>
         </div>
     </section>
 
-    <!-- CORE SERVICES SECTION -->
+    <!-- SERVICES SECTION -->
     <section id="services" class="expertise-section">
         <div class="section-header">
             <h2>What We Build</h2>
@@ -89,24 +53,20 @@
         </div>
 
         <div class="cards-grid">
-            <!-- Card 1 -->
             <div class="service-card">
                 <h3>Frontend & Backend</h3>
                 <p>Beautiful, responsive user interfaces powered by robust, scalable server-side architectures.</p>
             </div>
-            
-            <!-- Card 2 -->
             <div class="service-card">
                 <h3>Full-Stack & Hosting</h3>
                 <p>Ready-to-use, fully hosted web platforms delivered directly to clients with zero setup hassle.</p>
             </div>
-
-            <!-- Card 3 -->
             <div class="service-card">
                 <h3>Custom Software</h3>
                 <p>Tailor-made digital products and applications engineered specifically for your business logic.</p>
             </div>
         </div>
     </section>
+
 </body>
 </html>
