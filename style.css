@@ -347,6 +347,133 @@ body {
 }   
 
 /* ==========================================================================
+   BENTO GRID CAPABILITIES SECTION
+   ========================================================================== */
+.bento-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.bento-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.bento-header h2 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+.bento-header p {
+    color: #8b949e;
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 10px auto 0 auto;
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+}
+
+/* Card Sizing */
+.card-large {
+    grid-column: span 7;
+}
+
+.card-medium {
+    grid-column: span 5;
+}
+
+/* Base Bento Card */
+.bento-card {
+    background: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+    transform: translateY(-4px);
+    border-color: #388bfd;
+    box-shadow: 0 10px 30px rgba(56, 139, 253, 0.1);
+}
+
+/* Numbered Pill (matching your reference photo) */
+.card-num {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #58a6ff;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 30px;
+    width: fit-content;
+}
+
+.card-content {
+    margin-top: 25px;
+}
+
+.tag {
+    color: #8b949e;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.bento-card h3 {
+    color: #f0f6fc;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.bento-card p {
+    color: #8b949e;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.card-tech-stack {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.card-tech-stack span {
+    background: #161b22;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+/* Responsive Grid for Tablets/Phones */
+@media (max-width: 900px) {
+    .card-large, .card-medium {
+        grid-column: span 12;
+    }
+}
+
+
+/* ==========================================================================
    SERVICES SECTION
    ========================================================================== */
 .expertise-section {
