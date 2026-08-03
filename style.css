@@ -282,6 +282,22 @@ body {
     font-size: 0.8rem;
     color: #8b949e;
 }
+/* Terminal Reaction Text Styling */
+.command-text {
+    color: #f0f6fc;
+}
+
+.response-text {
+    color: #8b949e; /* Dim gray for background server logs */
+    padding-left: 15px;
+    font-size: 0.85rem;
+}
+
+.success-text {
+    color: #3fb950; /* Bright success green */
+    font-weight: bold;
+    padding-left: 15px;
+}   
 
 /* ==========================================================================
    SERVICES SECTION
