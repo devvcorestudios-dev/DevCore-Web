@@ -191,6 +191,82 @@ body {
     border-color: #ffffff;
     color: #ffffff;
 }
+/* ==========================================================================
+   INTERACTIVE TERMINAL SECTION
+   ========================================================================== */
+.terminal-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px 100px 20px;
+}
+
+.terminal-window {
+    width: 100%;
+    max-width: 800px;
+    background-color: #0d1117; /* GitHub dark mode background */
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+.terminal-header {
+    background-color: #161b22;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.terminal-title {
+    flex-grow: 1;
+    text-align: center;
+    color: #8b949e;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    margin-right: 40px; /* Balances the dots to perfectly center text */
+}
+
+.terminal-body {
+    padding: 30px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    color: #c9d1d9;
+    min-height: 150px;
+}
+
+.prompt {
+    color: #7ee787; /* Hacker green */
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    background-color: #c9d1d9;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
 
 /* ==========================================================================
    SERVICES SECTION
