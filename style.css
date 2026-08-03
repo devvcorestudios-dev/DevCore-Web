@@ -677,3 +677,332 @@ body {
         gap: 25px;
     }
 }
+
+/* ==========================================================================
+   🍔 HAMBURGER MENU & MOBILE GLASS PANEL
+   ========================================================================== */
+.hamburger-btn {
+    display: none; /* Strictly hidden on desktop architecture */
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    z-index: 10001; /* Keeps it above the glass panel */
+}
+
+.hamburger-btn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.mobile-nav-panel {
+    position: fixed; /* Fixed relative to viewport so it stays locked below pill */
+    top: 85px;       /* Drops down just below floating navbar */
+    left: 5%;
+    width: 90%;
+    z-index: 9999;
+    
+    /* The Premium Glass Effect */
+    background-color: rgba(13, 17, 23, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    
+    /* State Management: Hidden by default */
+    opacity: 0;
+    transform: translateY(-15px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth fluid drop */
+}
+
+/* Active State Class (Triggered by JS) */
+.mobile-nav-panel.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav-list a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 500;
+    display: block;
+    padding: 8px 0;
+    transition: color 0.2s ease;
+}
+
+.mobile-nav-list a:hover {
+    color: #388bfd;
+}
+
+.mobile-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+}
+
+/* Show button & enable mobile menu behavior below 768px */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none !important;
+    }
+    .hamburger-btn {
+        display: block !important;
+    }
+}
+
+/* ==========================================================================
+   📱 ENTERPRISE MOBILE RESPONSIVENESS (DEVCORE ARCHITECTURE STACKING)
+   ========================================================================== */
+
+/* 1. Tablet & Medium Screen Adjustments (Max Width 1024px) */
+@media screen and (max-width: 1024px) {
+    .hero-centered {
+        padding: 120px 20px 60px 20px;
+    }
+
+    .hero-title {
+        font-size: 3rem !important;
+    }
+
+    .bento-grid {
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+    }
+
+    /* Force Bento cards into equal 6-col spans on tablets */
+    .card-large, .card-medium {
+        grid-column: span 6 !important;
+    }
+
+    .horizontal-showcase-section {
+        margin: 60px auto;
+    }
+}
+
+/* 2. Mobile Devices (Max Width 768px - Full Stacking & Poco/Android Fix) */
+@media screen and (max-width: 768px) {
+
+    /* ----------------------------------------------------------------------
+       A. RESET GLOBAL RIGID WIDTHS & OVERFLOWS
+       ---------------------------------------------------------------------- */
+    *, ::before, ::after {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+    }
+
+    .navbar-pill,
+    .hero-centered,
+    .terminal-container,
+    .bento-section,
+    .horizontal-showcase-section,
+    .site-footer {
+        width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       B. FLOATING PILL NAVBAR & HAMBURGER ALIGNMENT
+       ---------------------------------------------------------------------- */
+    .navbar-pill {
+        top: 12px;
+        width: 92% !important;
+        height: 64px !important;
+        padding: 0 18px !important;
+        display: flex !important;
+        flex-direction: row !important; /* Forces Logo + Hamburger on 1 line */
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-radius: 40px !important;
+    }
+
+    /* Hide desktop navigation links & avatar on mobile */
+    .nav-links, 
+    .nav-avatar,
+    .rightnav {
+        display: none !important;
+    }
+
+    /* Lock Hamburger Trigger to the extreme right */
+    .hamburger-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto !important;
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Mobile Glassmorphism Panel Position */
+    .mobile-nav-panel {
+        top: 82px !important;
+        left: 4% !important;
+        width: 92% !important;
+        z-index: 99999 !important;
+        padding: 20px !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       C. HERO SECTION & TYPOGRAPHY SCALING
+       ---------------------------------------------------------------------- */
+    .hero-centered {
+        padding: 110px 16px 40px 16px !important;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 2.8rem) !important;
+        letter-spacing: -0.5px !important;
+        line-height: 1.15 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem !important;
+        margin: 15px auto 25px auto !important;
+    }
+
+    .hero-buttons {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+
+    .btn-primary, 
+    .btn-secondary {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 14px 20px !important;
+        display: block !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       D. INTERACTIVE TERMINAL COMPONENT
+       ---------------------------------------------------------------------- */
+    .terminal-container {
+        margin: 30px auto !important;
+        border-radius: 12px !important;
+        font-size: 0.78rem !important;
+    }
+
+    .terminal-body {
+        padding: 12px !important;
+        max-height: 280px !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       E. BENTO GRID FULL-WIDTH STACKING
+       ---------------------------------------------------------------------- */
+    .bento-section {
+        margin: 50px auto !important;
+        padding: 0 16px !important;
+    }
+
+    .bento-header h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .bento-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    .bento-card {
+        width: 100% !important;
+        min-height: 240px !important;
+        padding: 24px !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       F. HORIZONTAL ARCHITECTURE SHOWCASE SLIDER
+       ---------------------------------------------------------------------- */
+    .horizontal-showcase-section {
+        margin: 60px auto !important;
+        padding: 0 16px !important;
+    }
+
+    .showcase-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    .horizontal-scroll-container {
+        gap: 16px !important;
+        padding-bottom: 15px !important;
+    }
+
+    .h-card {
+        flex: 0 0 85vw !important; /* Full visible snap cards on phone displays */
+        padding: 20px !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       G. MINIMALIST FOOTER STACKING
+       ---------------------------------------------------------------------- */
+    .site-footer {
+        margin-top: 60px !important;
+        padding: 35px 16px !important;
+    }
+
+    .footer-container {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 25px !important;
+    }
+
+    .footer-logo-title {
+        justify-content: center !important;
+    }
+
+    .footer-langs {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }
+
+    .footer-socials {
+        justify-content: center !important;
+    }
+}
+
+/* 3. Small Screen Phones (Max Width 480px) */
+@media screen and (max-width: 480px) {
+    .navbar-pill {
+        width: 95% !important;
+        height: 58px !important;
+    }
+
+    .nav-title {
+        font-size: 0.9rem !important;
+    }
+
+    .hero-title {
+        font-size: 1.8rem !important;
+    }
+
+    .h-card {
+        flex: 0 0 90vw !important;
+    }
+}

@@ -82,3 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     runTerminalLoop();
 });
+// mobile hamburger menu logic
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavPanel = document.getElementById('mobileNavPanel');
+
+    if (mobileMenuBtn && mobileNavPanel) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNavPanel.classList.toggle('is-active');
+        });
+
+        // Close panel when clicking any link
+        document.querySelectorAll('.mobile-nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNavPanel.classList.remove('is-active');
+            });
+        });
+    }
+});
