@@ -585,3 +585,95 @@ body {
 .card-iot-bg {
     background-image: url('assets/card-hardware.jpg'); /* Microchip / hardware board circuit image */
 }
+
+/* ==========================================================================
+   MINIMALIST DARK FOOTER
+   ========================================================================== */
+.site-footer {
+    width: 100%;
+    background: #090d11;
+    border-top: 1px solid #161b22;
+    padding: 40px 20px;
+    margin-top: 120px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Brand & Logo */
+.footer-logo-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.footer-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.footer-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.footer-copyright {
+    color: #6e7681;
+    font-size: 0.85rem;
+}
+
+/* Languages Nav */
+.footer-langs {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-langs a {
+    color: #6e7681;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: color 0.2s ease;
+}
+
+.footer-langs a:hover {
+    color: #58a6ff;
+}
+
+/* Social Icons */
+.footer-socials {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.footer-socials a {
+    color: #8b949e;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-socials a:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+}
