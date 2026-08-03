@@ -346,6 +346,58 @@ body {
     padding-left: 15px;
 }   
 
+
+/* ==========================================================================
+   SERVICES SECTION
+   ========================================================================== */
+.expertise-section {
+    padding: 10vh 5vw;
+    text-align: center;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: #a0a0a0;
+    margin-bottom: 60px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.service-card {
+    background-color: #0a0a0a;
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid #1a1a1a;
+    text-align: left;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: #38bdf8;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: #888888;
+    line-height: 1.6;
+}
+
+
 /* ==========================================================================
    BENTO GRID CAPABILITIES SECTION
    ========================================================================== */
@@ -470,55 +522,4 @@ body {
     .card-large, .card-medium {
         grid-column: span 12;
     }
-}
-
-
-/* ==========================================================================
-   SERVICES SECTION
-   ========================================================================== */
-.expertise-section {
-    padding: 10vh 5vw;
-    text-align: center;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.section-header p {
-    color: #a0a0a0;
-    margin-bottom: 60px;
-}
-
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.service-card {
-    background-color: #0a0a0a;
-    padding: 40px;
-    border-radius: 16px;
-    border: 1px solid #1a1a1a;
-    text-align: left;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-8px);
-    border-color: #38bdf8;
-}
-
-.service-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-.service-card p {
-    color: #888888;
-    line-height: 1.6;
 }
