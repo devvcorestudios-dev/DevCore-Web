@@ -197,7 +197,7 @@ body {
 .terminal-wrapper {
     display: flex;
     justify-content: center;
-    padding: 50px 20px 100px 20px;
+    padding: 40px 20px 80px 20px;
     margin-top: 40px;
 }
 
@@ -243,12 +243,16 @@ body {
     margin-right: 40px; /* Balances the dots to perfectly center text */
 }
 
+/* Updated terminal body to stack multi-line deployment steps */
 .terminal-body {
-    padding: 30px 20px;
+    padding: 20px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #c9d1d9;
-    min-height: 150px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .prompt {
@@ -257,16 +261,26 @@ body {
     font-weight: bold;
 }
 
-.cursor {
-    display: inline-block;
-    width: 10px;
-    background-color: #c9d1d9;
-    animation: blink 1s step-end infinite;
+/* Smooth fade-in animation for each new deployment line */
+.terminal-line {
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Live Metrics Ticker Footer matching GitHub Actions style */
+.terminal-metrics {
+    background-color: #161b22;
+    padding: 10px 20px;
+    border-top: 1px solid #30363d;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    color: #8b949e;
 }
 
 /* ==========================================================================

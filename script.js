@@ -1,17 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const textToType = "initializing secure deployment pipeline... [OK]";
-    const typeWriterElement = document.getElementById("typewriter");
-    let index = 0;
+    const steps = [
+        "git clone git@github.com:devcore/client-repo.git ... [OK]",
+        "resolving dependencies: npm install --production ... [OK]",
+        "building docker container: optimizing layers ... [OK]",
+        "provisioning SSL certificates & routing Nginx ... [OK]",
+        "deployment successful! Live at https://client.devcore.io"
+    ];
 
-    function typeCommand() {
-        if (index < textToType.length) {
-            typeWriterElement.innerHTML += textToType.charAt(index);
-            index++;
-            // Randomize typing speed slightly for realism (30ms to 80ms)
-            setTimeout(typeCommand, Math.random() * 50 + 30); 
+    const terminalBody = document.getElementById("terminal-content");
+    let currentStep = 0;
+
+    function runDeploymentLoop() {
+        if (!terminalBody) return;
+        terminalBody.innerHTML = ""; // Clear screen for loop restart
+        currentStep = 0;
+        printNextStep();
+    }
+
+    function printNextStep() {
+        if (currentStep < steps.length) {
+            const line = document.createElement("div");
+            line.className = "terminal-line";
+            
+            const prompt = document.createElement("span");
+            prompt.className = "prompt";
+            prompt.textContent = "root@devcore:~$ ";
+            
+            const text = document.createElement("span");
+            text.textContent = steps[currentStep];
+            
+            line.appendChild(prompt);
+            line.appendChild(text);
+            terminalBody.appendChild(line);
+
+            currentStep++;
+            // Delay before typing the next command line
+            setTimeout(printNextStep, 800);
+        } else {
+            // Finished sequence: wait 3 seconds, then clear and loop over
+            setTimeout(runDeploymentLoop, 3000);
         }
     }
 
-    // Start typing after a short 1-second delay
-    setTimeout(typeCommand, 1000);
+    runDeploymentLoop();
 });
