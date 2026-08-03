@@ -1,163 +1,20 @@
-/* GLOBAL RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-    background-color: #050505; /* Deep agency black */
-    color: #ffffff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: rgb(0, 0, 0);
+            color: white;
 }
 
-/* ==========================================================================
-   HERO SECTION
-   ========================================================================== */
-.hero-container {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    /* Placeholder gradient until you pick an image */
-    background: linear-gradient(to bottom, rgba(5,5,5,0.2), #050505);
-}
-
-.hero-content {
-    margin-top: auto;
-    padding: 0 5vw 8vh 5vw;
-    max-width: 900px;
-}
-
-.hero-headline {
-    font-size: clamp(3rem, 5vw, 5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    letter-spacing: -1px;
-}
-
-.hero-subtext {
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    color: #a0a0a0;
-    margin-bottom: 40px;
-    max-width: 600px;
-    line-height: 1.5;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-}
-
-.btn {
-    padding: 15px 35px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background-color: #ffffff;
-    color: #050505;
-}
-
-.btn-primary:hover {
-    background-color: #cccccc;
-}
-
-.btn-outline {
-    background-color: transparent;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.btn-outline:hover {
-    border-color: #ffffff;
-}
-
-/* ==========================================================================
-   EXPERTISE SECTION (YOUR DESIGN PLAYGROUND)
-   ========================================================================== */
-.expertise-section {
-    padding: 10vh 5vw;
-    background-color: #050505;
-}
-
-.section-header {
-    margin-bottom: 60px;
-}
-
-.section-header h2 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.section-header p {
-    color: #a0a0a0;
-    font-size: 1.2rem;
-}
-
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-/* Tweak this card design! Add borders, change colors, or add glassmorphism */
+/* Update the cards to look like sleek UI components */
 .service-card {
-    background-color: #111111;
+    background-color: #1e293b; /* Slightly lighter slate */
     padding: 40px;
-    border-radius: 12px;
-    border: 1px solid #222222;
-    transition: transform 0.3s ease;
+    border-radius: 16px; /* Smooth, modern curves */
+    border: 1px solid #334155; /* Subtle border */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    border-color: #444444;
-}
-
-.service-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #ffffff;
-}
-
-.service-card p {
-    color: #888888;
-    line-height: 1.6;
-}
-
-/* ==========================================================================
-   VIDEO BACKGROUND STYLES
-   ========================================================================== */
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1; /* Keeps video at the very back */
-}
-
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(5,5,5,0.4), #050505);
-    z-index: 2; /* Sits between video and text */
-}
-
-.hero-content {
-    /* Update this to ensure text sits above the video */
-    z-index: 10; 
-    position: relative;
-    /* ... keep your existing margin and padding ... */
+    transform: translateY(-8px);
+    border-color: #60a5fa; /* A clean, electric blue highlight on hover */
 }
