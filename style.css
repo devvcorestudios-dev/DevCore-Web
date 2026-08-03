@@ -797,7 +797,28 @@ body {
 
 /* 2. Mobile Devices (Max Width 768px - Full BMW Stacking Logic & Reset) */
 @media screen and (max-width: 768px) {
+     @media screen and (max-width: 768px) {
+    /* Hide the desktop nav links and the user avatar wrapper on mobile */
+    .nav-links, 
+    .nav-actions, 
+    .user-avatar {
+        display: none !important;
+    }
 
+    /* Force horizontal flex alignment for logo on left and hamburger on right */
+    .liquid-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    /* Keep the hamburger button visible and pushed to the right */
+    .hamburger-btn {
+        display: flex !important;
+        margin-left: auto !important;
+    }
+    }
     /* ----------------------------------------------------------------------
        A. GLOBAL RESET & OVERFLOW PROTECTION (Poco/Android Viewport Lock)
        ---------------------------------------------------------------------- */
