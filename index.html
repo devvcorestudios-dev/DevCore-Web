@@ -10,7 +10,15 @@
 
     <!-- HERO SECTION -->
     <section class="hero-container">
-        <!-- 📌 WE WILL PASTE YOUR WHITE GLASS NAV BAR HERE LATER -->
+        
+        <!-- BACKGROUND VIDEO -->
+        <video autoplay loop muted playsinline class="hero-video">
+            <!-- You can replace this URL with any direct mp4 link later -->
+            <source src="https://cdn.pixabay.com/video/2020/03/19/33924-400922378_large.mp4" type="video/mp4">
+        </video>
+
+        <!-- Dark Overlay to keep text readable -->
+        <div class="video-overlay"></div>
 
         <!-- Bottom Left Text -->
         <div class="hero-content">
@@ -23,6 +31,7 @@
         </div>
     </section>
 
+<!-- ... (Keep your Expertise section exactly the same) ... -->
     <!-- CORE EXPERTISE SECTION -->
     <section id="expertise" class="expertise-section">
         <div class="section-header">
@@ -50,6 +59,9 @@
             </div>
         </div>
     </section>
-
+            <!-- ADD GSAP SCRIPTS RIGHT BEFORE THE CLOSING </body> TAG -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script src="script.js"></script>
 </body>
 </html>
