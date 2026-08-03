@@ -249,10 +249,13 @@ body {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.95rem;
     color: #c9d1d9;
-    min-height: 180px;
+    min-height: 220px;
+    max-height: 300px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    text-align: left; /* Forces terminal output to stay left-aligned */
 }
 
 .prompt {

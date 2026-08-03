@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const deploymentSequence = [
-        // PART 1: The Production Server Build Steps
         { type: "command", text: "git clone git@github.com:devcore/client-repo.git" },
         { type: "response", text: "Cloning into 'client-repo'... remote: Enumerating objects: 142, done." },
         { type: "command", text: "npm install --production" },
@@ -9,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { type: "response", text: "Building layer 4/4 [==================>] 48.2MB / 48.2MB - Optimized [OK]" },
         { type: "command", text: "nginx -s reload && certbot --renew" },
         { type: "response", text: "Provisioning SSL certificates... Active. Domain routing online." },
-        
-        // PART 2: Your Fedora & Git Workspace History Sequence
         { type: "command", text: "cd /home/avinash/Desktop/DevCore-Studios/DevCore_1" },
         { type: "response", text: "bash: cd: navigating workspace directories..." },
         { type: "command", text: "touch .gitignore && nano .gitignore" },
@@ -48,15 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
             line.className = "terminal-line";
 
             if (item.type === "command") {
-                const prompt = document.createElement("span");
-                prompt.className = "prompt";
-                prompt.textContent = "avinash@fedora:~$ ";
+                const prompt = document.exit ? null : document.createElement("span"); // safe creation
+                const promptSpan = document.createElement("span");
+                promptSpan.className = "prompt";
+                promptSpan.textContent = "avinash@fedora:~$ ";
                 
                 const text = document.createElement("span");
                 text.className = "command-text";
                 text.textContent = item.text;
                 
-                line.appendChild(prompt);
+                line.appendChild(promptSpan);
                 line.appendChild(text);
             } else if (item.type === "response") {
                 const resText = document.createElement("span");
@@ -76,9 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
             terminalBody.scrollTop = terminalBody.scrollHeight;
 
             currentIndex++;
-            setTimeout(printNextLog, 450);
+            setTimeout(printNextLog, 400);
         } else {
-            setTimeout(runTerminalLoop, 6000);
+            setTimeout(runTerminalLoop, 5000);
         }
     }
 
