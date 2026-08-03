@@ -120,11 +120,12 @@ body {
 }
 
 /* ==========================================================================
-   CINEMATIC HERO VIDEO BACKGROUND
+   CINEMATIC HERO VIDEO BACKGROUND (FIXED)
    ========================================================================== */
 .hero-centered {
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero-video-container {
@@ -133,30 +134,33 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Sits behind everything */
+    z-index: -1; /* Pushes video completely behind content */
 }
 
 .hero-bg-video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures video scales smoothly without distortion */
+    object-fit: cover;
 }
 
-/* Dark tint overlay so the text remains high-contrast and readable */
+/* Adjusted opacity from 0.88 down to 0.75 so video is visible, but text remains high-contrast */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(5, 5, 5, 0.88); 
+    background: rgba(5, 5, 5, 0.75); 
 }
 
-/* Force hero content to sit safely above the video layer */
+/* Ensure all hero text and buttons sit cleanly on top */
 .hero-content-wrapper {
     position: relative;
     z-index: 2;
 }
+/* ==========================================================================
+   HERO CONTENT STYLING
+   ========================================================================== */
 
 .hero-badge {
     display: flex;
