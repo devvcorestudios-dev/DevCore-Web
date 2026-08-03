@@ -767,7 +767,7 @@ body {
 }
 
 /* ==========================================================================
-   📱 ENTERPRISE MOBILE RESPONSIVENESS (DEVCORE ARCHITECTURE STACKING)
+   📱 ENTERPRISE MOBILE RESPONSIVENESS (DEVCORE ARCHITECTURE STACK)
    ========================================================================== */
 
 /* 1. Tablet & Medium Screen Adjustments (Max Width 1024px) */
@@ -785,7 +785,7 @@ body {
         gap: 16px;
     }
 
-    /* Force Bento cards into equal 6-col spans on tablets */
+    /* Equal 6-column spans on tablets for Bento Cards */
     .card-large, .card-medium {
         grid-column: span 6 !important;
     }
@@ -795,11 +795,11 @@ body {
     }
 }
 
-/* 2. Mobile Devices (Max Width 768px - Full Stacking & Poco/Android Fix) */
+/* 2. Mobile Devices (Max Width 768px - Full BMW Stacking Logic & Reset) */
 @media screen and (max-width: 768px) {
 
     /* ----------------------------------------------------------------------
-       A. RESET GLOBAL RIGID WIDTHS & OVERFLOWS
+       A. GLOBAL RESET & OVERFLOW PROTECTION (Poco/Android Viewport Lock)
        ---------------------------------------------------------------------- */
     *, ::before, ::after {
         box-sizing: border-box;
@@ -810,7 +810,6 @@ body {
         width: 100% !important;
     }
 
-    .navbar-pill,
     .hero-centered,
     .terminal-container,
     .bento-section,
@@ -819,51 +818,119 @@ body {
         width: 100% !important;
         max-width: 100vw !important;
         min-width: 0 !important;
+        box-sizing: border-box;
     }
 
     /* ----------------------------------------------------------------------
-       B. FLOATING PILL NAVBAR & HAMBURGER ALIGNMENT
+       B. FLOATING PILL NAVBAR - HORIZONTAL ROW (Logo Left + Hamburger Right)
        ---------------------------------------------------------------------- */
+    .devcore-header,
     .navbar-pill {
-        top: 12px;
-        width: 92% !important;
-        height: 64px !important;
-        padding: 0 18px !important;
-        display: flex !important;
-        flex-direction: row !important; /* Forces Logo + Hamburger on 1 line */
-        justify-content: space-between !important;
-        align-items: center !important;
-        border-radius: 40px !important;
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%) !important;
+        width: 95% !important;
+        z-index: 10000;
     }
 
-    /* Hide desktop navigation links & avatar on mobile */
+    .devcore-nav {
+        display: flex !important;
+        flex-direction: row !important; /* CRITICAL: Forces 1-line horizontal row */
+        justify-content: space-between !important;
+        align-items: center !important;
+        height: 65px !important;
+        padding: 0 20px !important;
+        border-radius: 30px !important;
+        background: rgba(13, 17, 23, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* STRICTLY HIDE Desktop Links and Top AV Avatar on Mobile */
     .nav-links, 
-    .nav-avatar,
-    .rightnav {
+    .nav-right,
+    .devcore-header .nav-avatar,
+    .navbar-pill .nav-avatar {
         display: none !important;
     }
 
-    /* Lock Hamburger Trigger to the extreme right */
+    /* Show & Lock Hamburger Trigger to the Far Right */
     .hamburger-btn {
         display: flex !important;
         align-items: center;
         justify-content: center;
-        margin-left: auto !important;
-        width: 36px;
-        height: 36px;
+        margin-left: auto !important; /* Forces it flush right */
+        width: 35px;
+        height: 35px;
+        background: none;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        z-index: 10001;
     }
 
-    /* Mobile Glassmorphism Panel Position */
-    .mobile-nav-panel {
-        top: 82px !important;
-        left: 4% !important;
-        width: 92% !important;
-        z-index: 99999 !important;
-        padding: 20px !important;
+    .hamburger-btn svg {
+        width: 100%;
+        height: 100%;
     }
 
     /* ----------------------------------------------------------------------
-       C. HERO SECTION & TYPOGRAPHY SCALING
+       C. MOBILE MENU GLASS PANEL & AVATAR INSIDE MENU
+       ---------------------------------------------------------------------- */
+    .mobile-nav-panel {
+        position: fixed;
+        top: 85px !important;
+        left: 5% !important;
+        width: 90% !important;
+        z-index: 99999 !important;
+        box-sizing: border-box;
+        background-color: rgba(13, 17, 23, 0.88);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 25px;
+        opacity: 0;
+        transform: translateY(-15px);
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-nav-panel.is-active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+    }
+
+    /* Profile Avatar Styling Inside Mobile Menu */
+    .mobile-profile-link {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        color: #f0f6fc;
+        font-weight: 600;
+        padding: 6px 0;
+        text-decoration: none;
+    }
+
+    .mobile-profile-link .nav-avatar {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: #21262d;
+        border: 1px solid #30363d;
+        border-radius: 50%;
+        color: #58a6ff;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    /* ----------------------------------------------------------------------
+       D. HERO SECTION & TYPOGRAPHY SCALING
        ---------------------------------------------------------------------- */
     .hero-centered {
         padding: 110px 16px 40px 16px !important;
@@ -896,7 +963,7 @@ body {
     }
 
     /* ----------------------------------------------------------------------
-       D. INTERACTIVE TERMINAL COMPONENT
+       E. INTERACTIVE TERMINAL COMPONENT
        ---------------------------------------------------------------------- */
     .terminal-container {
         margin: 30px auto !important;
@@ -910,7 +977,7 @@ body {
     }
 
     /* ----------------------------------------------------------------------
-       E. BENTO GRID FULL-WIDTH STACKING
+       F. BENTO GRID FULL-WIDTH STACKING
        ---------------------------------------------------------------------- */
     .bento-section {
         margin: 50px auto !important;
@@ -934,7 +1001,7 @@ body {
     }
 
     /* ----------------------------------------------------------------------
-       F. HORIZONTAL ARCHITECTURE SHOWCASE SLIDER
+       G. HORIZONTAL ARCHITECTURE SHOWCASE SLIDER
        ---------------------------------------------------------------------- */
     .horizontal-showcase-section {
         margin: 60px auto !important;
@@ -953,12 +1020,12 @@ body {
     }
 
     .h-card {
-        flex: 0 0 85vw !important; /* Full visible snap cards on phone displays */
+        flex: 0 0 85vw !important; /* Full visible touch-snap cards */
         padding: 20px !important;
     }
 
     /* ----------------------------------------------------------------------
-       G. MINIMALIST FOOTER STACKING
+       H. MINIMALIST FOOTER STACKING
        ---------------------------------------------------------------------- */
     .site-footer {
         margin-top: 60px !important;
@@ -972,16 +1039,8 @@ body {
         gap: 25px !important;
     }
 
-    .footer-logo-title {
-        justify-content: center !important;
-    }
-
-    .footer-langs {
-        justify-content: center !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
-    }
-
+    .footer-logo-title,
+    .footer-langs,
     .footer-socials {
         justify-content: center !important;
     }
@@ -989,9 +1048,9 @@ body {
 
 /* 3. Small Screen Phones (Max Width 480px) */
 @media screen and (max-width: 480px) {
-    .navbar-pill {
-        width: 95% !important;
+    .devcore-nav {
         height: 58px !important;
+        padding: 0 16px !important;
     }
 
     .nav-title {
