@@ -37,7 +37,7 @@ body {
     padding: 0 30px;
     
     /* TRUE LIQUID GLASS EFFECT */
-    background: rgba(255, 255, 255, 0.12); /* Almost entirely transparent */
+    background: rgba(255, 255, 255, 0.50); /* Almost entirely transparent */
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     
