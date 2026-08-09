@@ -45,9 +45,22 @@ async function handleSignup(event) {
         });
 
         const data = await response.json();
-        if (response.ok) {
+        if (response.ok && data.success) {
             alert("Registration successful! Check your inbox for your welcome email.");
-            window.location.href = "login.html";
+            
+            // Smooth GSAP exit animation before redirecting to login
+            if (typeof gsap !== "undefined") {
+                gsap.to(".register-container", { 
+                    scale: 0.98, 
+                    opacity: 0, 
+                    duration: 0.3, 
+                    onComplete: () => {
+                        window.location.href = "login.html";
+                    }
+                });
+            } else {
+                window.location.href = "login.html";
+            }
         } else {
             alert("Signup failed: " + (data.message || "Email might already be registered."));
         }
@@ -55,10 +68,4 @@ async function handleSignup(event) {
         console.error("Network error:", error);
         alert("Could not connect to the backend server.");
     }
-
-    if (username) {
-                    gsap.to(".register-container", { scale: 0.98, opacity: 0, duration: 0.3, onComplete: () => {
-                        window.location.href = "index.html";
-                    }});
-                }
 }

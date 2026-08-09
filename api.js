@@ -4,7 +4,7 @@
 async function handleSignup(event) {
     event.preventDefault();
     
-    // Grab elements from signup.html
+    // Grab elements from signup.html (Adjust IDs to match your actual HTML input IDs)
     const user = document.getElementById('signupName').value;
     const email = document.getElementById('signupEmail').value;
     const phone = document.getElementById('signupPhone').value;
@@ -56,8 +56,15 @@ async function handleLogin(event) {
 
         const data = await response.json();
         if (response.ok) {
+            // CRITICAL: Save user session object so auth.js can dynamically update the navbar avatar & dropdown!
+            localStorage.setItem("devcoreActiveSession", JSON.stringify({
+                user: data.user || data.username || "DevCore User",
+                email: data.email || email,
+                userId: data.userId
+            }));
+
             alert("Login successful! Check your email for workspace verification.");
-            window.location.href = "dashboard.html";
+            window.location.href = "index.html"; // Redirect to your home page or dashboard where auth.js runs
         } else {
             alert("User not found or credentials wrong, please try again with precision.");
         }
