@@ -57,7 +57,6 @@ async function handleSignup(event) {
     }
 
     if (username) {
-                    localStorage.setItem("devcoreActiveSession", username);
                     gsap.to(".register-container", { scale: 0.98, opacity: 0, duration: 0.3, onComplete: () => {
                         window.location.href = "index.html";
                     }});
