@@ -11,7 +11,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav aria-label="Primary navigation"><div class="nav-links"><a class="active" href="#top">Home</a><a href="#services">Services</a><a href="#work">Templates</a><a href="#work">Projects</a><a href="dashboard.html">Dashboard</a></div><div class="user-menu"><button class="user-toggle" type="button" aria-label="Open account menu" aria-expanded="false" aria-controls="account-menu">DS</button><div class="user-panel" id="account-menu" role="menu" aria-label="Account options"><div class="user-summary"><strong>Lead Developer</strong><span>lead@devcore.studio</span></div><a class="menu-item" role="menuitem" href="#contact">My account</a><a class="menu-item" role="menuitem" href="#studio">Settings</a><button class="menu-item logout" role="menuitem" type="button">Log out</button></div></div></nav>
+  <nav aria-label="Primary navigation"><div class="nav-links"><a class="active" href="#top">Home</a><a href="#services">Services</a><a href="#work">Templates</a><a href="#work">Projects</a><a href="dashboard.html">Dashboard</a></div>
+    <div class="nav-auth-container">
+        <!-- STATE A: GUEST (Sign In Button) -->
+        <a href="login.html" id="signInBtn" class="btn-signin">Sign In</a>
+    </div>
+    <div class="user-menu">
+        <button class="user-toggle" type="button" aria-label="Open account menu" aria-expanded="false" aria-controls="account-menu">DS</button>
+        <div class="user-panel" id="account-menu" role="menu" aria-label="Account options">
+                <div class="user-summary">
+                    <strong>Lead Developer</strong>
+                        <span>lead@devcore.studio</span>
+                            </div><a class="menu-item" role="menuitem" href="#contact">My account</a><a class="menu-item" role="menuitem" href="#studio">Settings</a><button class="menu-item logout" role="menuitem" type="button">Log out</button></div></div></nav>
   <main id="top">
     <section class="hero">
     <div class="wrap">

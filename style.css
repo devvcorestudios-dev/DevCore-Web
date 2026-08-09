@@ -10,6 +10,22 @@
     .nav-links { display:flex; gap:3px; align-items:center; }
     .nav-links a { color:#ded9e7; text-decoration:none; font-size:12px; font-weight:700; padding:12px 17px; border-radius:999px; transition:background .25s,color .25s,box-shadow .25s; }
     .nav-links a:hover, .nav-links a:focus-visible, .nav-links .active { background:linear-gradient(135deg,rgba(155,92,255,.82),rgba(216,75,180,.78)); color:white; box-shadow:0 5px 16px rgba(155,92,255,.3); outline:none; }
+    .btn-signin {
+    background: #388bfd;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.btn-signin:hover {
+    background: #2b74da;
+    transform: translateY(-1px);
+}
     .user-menu { position:relative; margin-left:4px; }
     .user-toggle { width:42px; height:42px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.2); border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta)); color:white; font:700 12px Manrope,Arial,sans-serif; cursor:pointer; box-shadow:0 5px 16px rgba(155,92,255,.28); transition:transform .2s,box-shadow .2s; }
     .user-toggle:hover, .user-toggle:focus-visible { transform:scale(1.06); box-shadow:0 8px 22px rgba(155,92,255,.45); outline:2px solid white; outline-offset:2px; }
