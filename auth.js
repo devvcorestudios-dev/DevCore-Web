@@ -1,63 +1,76 @@
+/*
+ * DevCore Studios - Authentication & Account Dropdown Logic
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Session Configuration (Matches your DevCore session storage key)
     const sessionKey = "devcoreActiveSession";
+    
+    // 2. Select Core Elements from your HTML
     const signInBtn = document.getElementById("signInBtn");
-    const userMenuWrapper = document.getElementById("userMenuWrapper");
-    const userToggle = document.querySelector(".user-toggle");
-    const accountMenu = document.getElementById("account-menu");
-    const logoutBtn = document.getElementById("logoutBtn");
+    const userMenuWrapper = document.querySelector(".user-menu"); // The wrapper containing the DS toggle & panel
+    const userToggle = document.querySelector(".user-toggle");       // The "DS" button
+    const accountMenu = document.getElementById("account-menu");     // The dropdown panel
+    const logoutBtn = document.querySelector(".menu-item.logout");   // The logout button inside panel
 
-    function updateAuthState() {
+    // 3. Main State Handler Function
+    function updateAccountMenu() {
         const developerName = localStorage.getItem(sessionKey);
         const isSignedIn = Boolean(developerName);
 
         if (isSignedIn) {
-            // Hide Sign In button, show Avatar Menu
+            // User IS signed in: Show DS avatar menu, Hide Sign In button
             if (signInBtn) signInBtn.style.display = "none";
-            if (userMenuWrapper) userMenuWrapper.style.display = "block";
+            if (userMenuWrapper) userMenuWrapper.style.display = "inline-block";
         } else {
-            // Show Sign In button, hide Avatar Menu
+            // User IS NOT signed in: Show Sign In button, Hide DS avatar menu
             if (signInBtn) signInBtn.style.display = "inline-block";
             if (userMenuWrapper) userMenuWrapper.style.display = "none";
+            
+            // Ensure dropdown panel is closed when signed out
+            if (accountMenu) accountMenu.classList.remove("active");
+            if (userToggle) userToggle.setAttribute("aria-expanded", "false");
         }
     }
 
-    // Run on initial load
-    updateAuthState();
+    // Run check on initial page load
+    updateAccountMenu();
 
-    // Toggle dropdown panel when clicking the "DS" avatar button
+    // 4. Toggle Dropdown Panel on "DS" Avatar Click
     if (userToggle && accountMenu) {
         userToggle.addEventListener("click", (e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // Stop click from propagating to window
             const isExpanded = userToggle.getAttribute("aria-expanded") === "true";
+            
             userToggle.setAttribute("aria-expanded", !isExpanded);
             accountMenu.classList.toggle("active");
         });
 
-        // Close dropdown when clicking outside
+        // Close dropdown when clicking anywhere else on the page
         document.addEventListener("click", () => {
-            if (userToggle) userToggle.setAttribute("aria-expanded", "false");
-            if (accountMenu) accountMenu.classList.remove("active");
+            userToggle.setAttribute("aria-expanded", "false");
+            accountMenu.classList.remove("active");
         });
 
+        // Prevent clicks inside the menu box from closing it
         accountMenu.addEventListener("click", (e) => {
             e.stopPropagation();
         });
     }
 
-    // Logout handling
+    // 5. Logout Action Handler
     if (logoutBtn) {
         logoutBtn.addEventListener("click", (e) => {
             e.preventDefault();
             localStorage.removeItem(sessionKey);
-            updateAuthState();
-            window.location.href = "index.html";
+            updateAccountMenu();
+            window.location.href = "index.html"; // Safe redirect home
         });
     }
 
-    // Sync across tabs
+    // 6. Cross-Tab Syncing (Keeps state updated if changed in another tab)
     window.addEventListener("storage", (event) => {
         if (event.key === sessionKey) {
-            updateAuthState();
+            updateAccountMenu();
         }
     });
 });
