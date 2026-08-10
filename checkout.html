@@ -551,23 +551,94 @@
   </section>
 
   <script>
-    const options = document.querySelectorAll('.shipping-option');
-    const shippingCost = document.getElementById('shippingCost');
-    const total = document.getElementById('total');
-    const toast = document.getElementById('toast');
-
-    options.forEach(option => {
-      option.addEventListener('click', () => {
-        options.forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
-
-        const price = Number(option.dataset.price);
-        shippingCost.textContent = `$${price.toFixed(2)}`;
-        total.textContent = `$${(119.98 + 13.20 + price).toFixed(2)}`;
-      });
+    document.addEventListener('DOMContentLoaded', () => {
+      // ==========================================
+      // 1. DYNAMIC SHIPPING BYPASS (Zero-Trust UI)
+      // ==========================================
+      const activeSession = localStorage.getItem('devcoreActiveSession');
+      const shippingStep = document.getElementById('shippingStep');
+      const paymentStep = document.getElementById('paymentStep');
+      const stepLabels = document.querySelectorAll('.step');
+      
+      if (activeSession) {
+          // User is logged in securely: Bypass shipping entirely for digital goods
+          if (shippingStep) shippingStep.classList.remove('visible');
+          if (paymentStep) paymentStep.classList.add('visible');
+          
+          // Update the UI progress tracker visually
+          if(stepLabels.length >= 2) {
+              stepLabels[0].classList.remove('active'); // Turn off shipping circle
+              stepLabels[1].classList.add('active');    // Turn on payment circle
+          }
+          
+          // Hide the "Back to shipping" button since shipping doesn't apply
+          const backToShippingBtn = document.querySelector('[data-back="shipping"]');
+          if (backToShippingBtn) backToShippingBtn.style.display = 'none';
+          
+          console.log("Authenticated session active: Digital delivery assumed, shipping bypassed.");
+      }
+  
+      // ==========================================
+      // 2. DYNAMIC CART INJECTION
+      // ==========================================
+      const cartData = JSON.parse(localStorage.getItem('devcoreSelectedTier'));
+      
+      if (cartData) {
+          // Wpe out hardcoded items
+          const existingProducts = document.querySelectorAll('.product');
+          existingProducts.forEach(prod => prod.remove());
+          
+          const productHTML = `
+              <div class="product">
+                  <img class="product-img" alt="${cartData.name}" src="${cartData.image}">
+                  <div>
+                      <div class="product-name">${cartData.name}</div>
+                      <div class="product-meta">Digital Node • Immediate Provisioning</div>
+                  </div>
+                  <div class="product-price">$${cartData.price.toFixed(2)}</div>
+              </div>
+          `;
+          
+          const cartHeader = document.querySelector('.cart h2');
+          if (cartHeader) {
+              cartHeader.insertAdjacentHTML('afterend', productHTML);
+          }
+  
+          // Process Financial Logic
+          const subtotal = cartData.price;
+          const taxRate = 0.18; // 18% infrastructure tax
+          const taxAmount = subtotal * taxRate;
+          const finalTotal = subtotal + taxAmount;
+  
+          const summaryRows = document.querySelectorAll('.summary .row');
+          if (summaryRows.length >= 3) {
+              summaryRows[0].querySelector('span:first-child').innerText = 'Subtotal (1 item)';
+              summaryRows[0].querySelector('span:last-child').innerText = `$${subtotal.toFixed(2)}`;
+              document.getElementById('shippingCost').innerText = `$0.00`;
+              summaryRows[2].querySelector('span:last-child').innerText = `$${taxAmount.toFixed(2)}`;
+          }
+          
+          const totalElement = document.getElementById('total');
+          if (totalElement) {
+              totalElement.innerText = `$${finalTotal.toFixed(2)}`;
+          }
+      } else {
+          // Failsafe back to pricing
+          window.location.href = 'pricing.html';
+      }
     });
 
-    document.getElementById('promo').addEventListener('click', () => {
+    // ==========================================
+    // 3. UI INTERACTIONS & NAVIGATION
+    // ==========================================
+    const options = document.querySelectorAll('.shipping-option');
+    const toast = document.getElementById('toast');
+    const steps = { shipping: document.getElementById('shippingStep'), payment: document.getElementById('paymentStep'), review: document.getElementById('reviewStep') };
+    const stepLabels = document.querySelectorAll('.step');
+    let selectedPayment = 'Credit / Debit Card';
+
+    // Promo code handler
+    document.getElementById('promo')?.addEventListener('click', () => {
       const code = prompt('Enter your promo code:');
       if (code) {
         toast.textContent = `Promo code "${code}" applied!`;
@@ -576,69 +647,117 @@
       }
     });
 
-    document.getElementById('checkoutForm').addEventListener('submit', e => {
-      e.preventDefault();
-      toast.textContent = 'Shipping details saved. Moving to payment…';
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    });
-    const steps = { shipping: document.getElementById('shippingStep'), payment: document.getElementById('paymentStep'), review: document.getElementById('reviewStep') };
-    const stepLabels = document.querySelectorAll('.step');
-    let selectedPayment = 'Credit / Debit Card';
-
+    // Step Navigation Function
     function showStep(name) {
-      Object.entries(steps).forEach(([key, element]) => element.classList.toggle('visible', key === name));
+      Object.entries(steps).forEach(([key, element]) => {
+        if (element) element.classList.toggle('visible', key === name);
+      });
       const activeIndex = { shipping: 0, payment: 1, review: 2 }[name];
       stepLabels.forEach((label, index) => label.classList.toggle('active', index === activeIndex));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.getElementById('checkoutForm').addEventListener('submit', () => showStep('payment'));
-    document.querySelectorAll('.payment-method').forEach(method => method.addEventListener('click', () => {
-      document.querySelectorAll('.payment-method').forEach(item => item.classList.remove('selected'));
-      method.classList.add('selected');
-      selectedPayment = method.dataset.method;
-      const card = selectedPayment === 'Credit / Debit Card';
-      document.getElementById('cardFields').style.display = card ? 'grid' : 'none';
-      document.querySelectorAll('#cardFields input').forEach(input => input.required = card);
-    }));
-
-    document.getElementById('paymentForm').addEventListener('submit', e => {
+    // Move from Shipping to Payment
+    document.getElementById('checkoutForm')?.addEventListener('submit', e => {
       e.preventDefault();
-      const form = document.getElementById('checkoutForm');
-      const lastName = form.querySelector('input[placeholder="Enter your last name"]').value;
-      const address = form.querySelector('input[placeholder="House number, street name"]').value;
-      const city = form.querySelector('input[placeholder="Enter city"]').value;
-      const shipping = document.querySelector('.shipping-option.selected');
-      document.getElementById('reviewAddress').textContent = `${document.getElementById('firstName').value} ${lastName}, ${address}, ${city}`;
-      document.getElementById('reviewShipping').textContent = `${shipping.querySelector('.ship-name').textContent} — ${shipping.querySelector('.ship-time').textContent}`;
-      const lastFour = document.getElementById('cardNumber').value.replace(/\D/g, '').slice(-4);
+      toast.textContent = 'Shipping details saved. Moving to payment…';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+      showStep('payment');
+    });
+
+    // Select Payment Method
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', () => {
+        document.querySelectorAll('.payment-method').forEach(item => item.classList.remove('selected'));
+        method.classList.add('selected');
+        selectedPayment = method.dataset.method;
+        const isCard = selectedPayment === 'Credit / Debit Card';
+        document.getElementById('cardFields').style.display = isCard ? 'grid' : 'none';
+        document.querySelectorAll('#cardFields input').forEach(input => input.required = isCard);
+      });
+    });
+
+    // Move from Payment to Review (Handling both physical and digital flows)
+    document.getElementById('paymentForm')?.addEventListener('submit', e => {
+      e.preventDefault();
+      const activeSession = localStorage.getItem('devcoreActiveSession');
+      
+      if (activeSession) {
+          // If logged in, they skipped shipping. Use session data for review screen.
+          const sessionData = JSON.parse(activeSession);
+          document.getElementById('reviewAddress').innerHTML = `<strong>Digital Delivery</strong><br>${sessionData.email || 'Authenticated User'}`;
+          document.getElementById('reviewShipping').textContent = 'Instant Cloud Provisioning';
+      } else {
+          // If guest, grab data from the shipping form
+          const form = document.getElementById('checkoutForm');
+          const firstName = document.getElementById('firstName')?.value || '';
+          const lastName = form.querySelector('input[placeholder="Enter your last name"]')?.value || '';
+          const address = form.querySelector('input[placeholder="House number, street name"]')?.value || '';
+          const city = form.querySelector('input[placeholder="Enter city"]')?.value || '';
+          const shipping = document.querySelector('.shipping-option.selected');
+          
+          document.getElementById('reviewAddress').textContent = `${firstName} ${lastName}, ${address}, ${city}`;
+          document.getElementById('reviewShipping').textContent = shipping ? `${shipping.querySelector('.ship-name').textContent} — ${shipping.querySelector('.ship-time').textContent}` : '';
+      }
+
+      const lastFour = document.getElementById('cardNumber').value.replace(/\D/g, '').slice(-4) || '****';
       document.getElementById('reviewPayment').textContent = selectedPayment === 'Credit / Debit Card' ? `Credit / Debit Card ending in ${lastFour}` : selectedPayment;
+      
       showStep('review');
     });
 
-    document.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => showStep(button.dataset.back)));
-    document.getElementById('placeOrder').addEventListener('click', () => {
-      const invoice = [
-        'BLAYZIN - INVOICE',
-        '=================',
-        `Order date: ${new Date().toLocaleDateString()}`,
-        '',
-        'Tech Fleece Hoodie                 $89.99',
-        'Essential T-Shirt                  $29.99',
-        `Shipping                           ${shippingCost.textContent}`,
-        'Estimated Tax                      $13.20',
-        '-----------------------------------------',
-        `TOTAL                              ${total.textContent}`,
-        '',
-        'Thank you for shopping with Blayzin!'
-      ].join('\n');
-      const invoiceUrl = URL.createObjectURL(new Blob([invoice], { type: 'text/plain' }));
-      document.getElementById('downloadInvoice').href = invoiceUrl;
-      document.getElementById('successScreen').classList.add('show');
+    // Back buttons
+    document.querySelectorAll('[data-back]').forEach(button => {
+      button.addEventListener('click', () => showStep(button.dataset.back));
     });
-    document.getElementById('cardNumber').addEventListener('input', e => {
+
+    // Format Card Input spacing
+    document.getElementById('cardNumber')?.addEventListener('input', e => {
       e.target.value = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+
+    // ==========================================
+    // 4. DYNAMIC INVOICE & ORDER COMPLETION
+    // ==========================================
+    document.getElementById('placeOrder')?.addEventListener('click', () => {
+      const cartData = JSON.parse(localStorage.getItem('devcoreSelectedTier'));
+      const sessionData = JSON.parse(localStorage.getItem('devcoreActiveSession') || '{}');
+      
+      if(!cartData) return;
+
+      const subtotal = cartData.price;
+      const tax = subtotal * 0.18;
+      const finalTotal = subtotal + tax;
+
+      // Dynamically build the text invoice using the selected tier data
+      const invoice = [
+        'DEVCORE STUDIOS - INFRASTRUCTURE INVOICE',
+        '========================================',
+        `Order Date: ${new Date().toLocaleDateString()}`,
+        `Billed To:  ${sessionData.email || 'Guest User'}`,
+        '',
+        `ITEM: ${cartData.name}`.padEnd(40) + `$${subtotal.toFixed(2)}`,
+        `Digital Delivery / Provisioning`.padEnd(40) + `$0.00`,
+        `Infrastructure Tax (18%)`.padEnd(40) + `$${tax.toFixed(2)}`,
+        '------------------------------------------------',
+        `TOTAL PAID`.padEnd(40) + `$${finalTotal.toFixed(2)}`,
+        '',
+        'Thank you for scaling with DevCore Studios!'
+      ].join('\n');
+      
+      const invoiceUrl = URL.createObjectURL(new Blob([invoice], { type: 'text/plain' }));
+      const downloadBtn = document.getElementById('downloadInvoice');
+      if (downloadBtn) {
+        downloadBtn.href = invoiceUrl;
+        downloadBtn.download = `DevCore_Invoice_${new Date().getTime()}.txt`;
+      }
+
+      // CRITICAL: Mark the user as having purchased a tier so the dashboard unlocks
+      localStorage.setItem('devcorePurchasedTier', 'true');
+
+      // Trigger the success modal
+      document.getElementById('successScreen').classList.add('show');
     });
   </script>
 </body>
