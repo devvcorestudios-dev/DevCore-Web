@@ -1288,3 +1288,102 @@
     .modal-close { position: absolute; right: 12px; top: 10px; border:none; background:transparent; color:var(--muted); font-size:20px; cursor:pointer; }
     .free-slots { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
     .slot-button { padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); color:#fff; cursor:pointer; }
+
+
+/*<!-- ========================================== -->
+<!-- 🛑 TIER REQUIREMENT OVERLAY (BLAYZIN THEME) -->
+<!-- ========================================== -->*/
+
+  .tier-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(9, 0, 15, 0.65);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+
+  /* When the class 'active' is added, it fades in */
+  .tier-overlay.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .tier-card {
+    background: linear-gradient(145deg, rgba(31,5,48,.95), rgba(19,0,31,.95));
+    border: 1px solid rgba(211,0,233,.3);
+    border-radius: 22px;
+    padding: 45px 35px;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 30px 100px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05);
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .tier-overlay.active .tier-card {
+    transform: translateY(0);
+  }
+
+  .tier-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    background: linear-gradient(135deg, #9700e9, #d400e8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+    box-shadow: 0 0 0 8px rgba(211,0,233,.12);
+  }
+
+  .tier-card h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .tier-card p {
+    color: #b9a7c3; /* Matches your muted theme text */
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .tier-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #9300e5, #d000e9);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 12px;
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 28px rgba(174,0,230,.22);
+  }
+
+  .tier-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+    box-shadow: 0 14px 32px rgba(174,0,230,.35);
+  }
+
+  /* Class to blur the dashboard behind the modal */
+  .blur-dashboard {
+    filter: blur(12px) brightness(0.7);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.4s ease;
+  }

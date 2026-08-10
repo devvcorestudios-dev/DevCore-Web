@@ -486,3 +486,29 @@
 
     // initial render
     renderCalendarList();
+
+    document.addEventListener('DOMContentLoaded', () => {
+    // 1. Verify if the user is logged in
+    const activeSession = localStorage.getItem('devcoreActiveSession');
+    
+    // 2. Check if they have successfully paid for a tier
+    // (We will set this variable in local storage after a successful checkout)
+    const hasPurchasedTier = localStorage.getItem('devcorePurchasedTier'); 
+
+    if (activeSession && !hasPurchasedTier) {
+        console.log("User logged in, but no tier detected. Triggering paywall overlay.");
+        
+        const overlay = document.getElementById('tierRequirementOverlay');
+        const dashboardShell = document.querySelector('.dashboard-shell');
+        
+        // Blur the dashboard background
+        if (dashboardShell) {
+            dashboardShell.classList.add('blur-dashboard');
+        }
+        
+        // Show the beautiful Blayzin-themed popup
+        if (overlay) {
+            overlay.classList.add('active');
+        }
+    }
+});

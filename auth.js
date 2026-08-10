@@ -3,19 +3,18 @@
  */
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Session Configuration
-    const sessionKey = "devcoreActiveSession"; // Stores the active user object or name
+    const sessionKey = "devcoreActiveSession"; 
     
     // 2. Select Core Elements from your HTML
     const signInBtn = document.getElementById("signInBtn");
-    const userMenuWrapper = document.querySelector(".user-menu"); // The wrapper containing DS toggle & panel
-    const userToggle = document.querySelector(".user-toggle");       // The "DS" button avatar
-    const accountMenu = document.getElementById("account-menu");     // The dropdown panel
-    const logoutBtn = document.querySelector(".menu-item.logout");   // The logout button inside panel
+    const userMenuWrapper = document.querySelector(".user-menu");
+    const userToggle = document.querySelector(".user-toggle");       
+    const accountMenu = document.getElementById("account-menu");     
+    const logoutBtn = document.querySelector(".menu-item.logout");   
 
-    // Select the dropdown text elements for name and email
-    const dropdownUsername = document.querySelector(".user-menu-username"); // e.g., "Lead Developer" placeholder element
-    const dropdownEmail = document.querySelector(".user-menu-email");       // e.g., email placeholder element
-    const avatarText = document.querySelector(".avatar-text");              // Initials display inside the DS avatar
+    // UPDATED: Target your existing HTML structure directly
+    const dropdownUsername = document.querySelector(".user-summary strong"); 
+    const dropdownEmail = document.querySelector(".user-summary span");      
 
     // 3. Main State Handler Function
     function updateAccountMenu() {
@@ -23,11 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const isSignedIn = Boolean(rawSession);
 
         if (isSignedIn) {
-            // User IS signed in: Show DS avatar menu, Hide Sign In button
+            // User IS signed in
             if (signInBtn) signInBtn.style.display = "none";
             if (userMenuWrapper) userMenuWrapper.style.display = "inline-block";
 
-            // Parse user details safely (supporting object or fallback string)
             let userName = "DevCore User";
             let userEmail = "user@devcore.studio";
 
@@ -41,12 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 userName = rawSession;
             }
 
-            // Dynamically inject real Username and Email into the dropdown card
+            // Inject Real Username and Email into your <strong> and <span> tags
             if (dropdownUsername) dropdownUsername.textContent = userName;
             if (dropdownEmail) dropdownEmail.textContent = userEmail;
 
-            // Dynamically calculate and update avatar initials (e.g., "Avinash Vyas" -> "AV")
-            if (avatarText && userName) {
+            // Calculate initials and inject them directly into your <button> text
+            if (userToggle && userName) {
                 const initials = userName
                     .trim()
                     .split(" ")
@@ -54,20 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     .join("")
                     .toUpperCase()
                     .substring(0, 2);
-                avatarText.textContent = initials;
+                userToggle.textContent = initials; 
             }
 
         } else {
-            // User IS NOT signed in: Show Sign In button, Hide DS avatar menu
+            // User IS NOT signed in
             if (signInBtn) signInBtn.style.display = "inline-block";
             if (userMenuWrapper) userMenuWrapper.style.display = "none";
             
-            // Reset to default placeholders when signed out
+            // Reset to defaults
             if (dropdownUsername) dropdownUsername.textContent = "Lead Developer";
             if (dropdownEmail) dropdownEmail.textContent = "lead@devcore.studio";
-            if (avatarText) avatarText.textContent = "DS";
+            if (userToggle) userToggle.textContent = "DS";
 
-            // Ensure dropdown panel is closed when signed out
+            // Close menu
             if (accountMenu) accountMenu.classList.remove("active");
             if (userToggle) userToggle.setAttribute("aria-expanded", "false");
         }
@@ -76,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Run check on initial page load
     updateAccountMenu();
 
-    // 4. Toggle Dropdown Panel on "DS" Avatar Click
+    // 4. Toggle Dropdown Panel on Avatar Click
     if (userToggle && accountMenu) {
         userToggle.addEventListener("click", (e) => {
             e.stopPropagation(); 
@@ -86,13 +84,11 @@ document.addEventListener("DOMContentLoaded", () => {
             accountMenu.classList.toggle("active");
         });
 
-        // Close dropdown when clicking anywhere else on the page
         document.addEventListener("click", () => {
             userToggle.setAttribute("aria-expanded", "false");
             accountMenu.classList.remove("active");
         });
 
-        // Prevent clicks inside the menu box from closing it
         accountMenu.addEventListener("click", (e) => {
             e.stopPropagation();
         });
