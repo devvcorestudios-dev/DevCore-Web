@@ -5,11 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Devcorestudios Dashboard</title>
   <link rel="stylesheet" href="dashboard.css" />
+
+  <!-- 🛡️ INSTANT GHOST CATCHER: Stops the page from painting if not logged in -->
+  <script>
+    if (!localStorage.getItem('devcoreActiveSession')) {
+        window.location.replace('login.html'); // .replace() prevents them from using the back button
+    }
+  </script>
   <!-- Add GSAP for the Apple-style animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   
   <link rel="stylesheet" href="dashboard.css" />
-  
+
 </head>
 <body>
 
