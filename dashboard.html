@@ -5,9 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Devcorestudios Dashboard</title>
   <link rel="stylesheet" href="dashboard.css" />
+  <!-- Add GSAP for the Apple-style animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  
+  <link rel="stylesheet" href="dashboard.css" />
   
 </head>
 <body>
+
+  <!-- THE APPLE WELCOME SCREEN -->
+  <div id="appleWelcomeScreen" class="apple-welcome-screen">
+    <div id="appleWelcomeText" class="apple-welcome-text">Hello.</div>
+  </div>
+
+  <!-- THE UPDATED PAYWALL OVERLAY -->
+  <div id="tierRequirementOverlay" class="tier-overlay">
+    <div class="tier-card">
+      <div class="tier-icon">⚡</div>
+      <h2>Welcome to DevCore</h2>
+      <p>Hope you're enjoying the service, but we haven't detected your current paid tier. If there is an error on our side recognizing you, please mail us at devvcorestudios@gmail.com. If you want to buy a paid tier, click the button below.</p>
+      <a href="pricing.html" class="tier-btn">Select Your Tier &nbsp; ↗</a>
+    </div>
+  </div>
   <div id="tierRequirementOverlay" class="tier-overlay">
   <div class="tier-card">
     <div class="tier-icon">⚡</div>

@@ -11,6 +11,7 @@
                 const response = await fetch('http://localhost:8080/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include', // <-- THIS IS THE MAGIC KEY FOR HTTPONLY COOKIES
                     body: JSON.stringify({ email, password })
                 });
 

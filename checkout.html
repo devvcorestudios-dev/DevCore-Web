@@ -547,6 +547,9 @@
       <h1>Payment Successful!</h1>
       <p>Your order has been placed successfully. A confirmation will be sent to your email shortly.</p>
       <a class="invoice-download" id="downloadInvoice" href="#" download="blayzin-invoice.txt">Download Invoice</a>
+      
+      <!-- ADD THIS NEW BUTTON SO THEY CAN ESCAPE -->
+      <a class="invoice-download" href="dashboard.html" style="margin-top: 12px; background: transparent; border-color: rgba(255,255,255,0.15);">Enter Workspace &nbsp; →</a>
     </div>
   </section>
 
@@ -578,15 +581,17 @@
           console.log("Authenticated session active: Digital delivery assumed, shipping bypassed.");
       }
   
-      // ==========================================
-      // 2. DYNAMIC CART INJECTION
+     // ==========================================
+      // 2. DYNAMIC CART INJECTION (Bulletproofed)
       // ==========================================
       const cartData = JSON.parse(localStorage.getItem('devcoreSelectedTier'));
       
       if (cartData) {
-          // Wpe out hardcoded items
           const existingProducts = document.querySelectorAll('.product');
           existingProducts.forEach(prod => prod.remove());
+          
+          // Force the price into a strict Number format to prevent fatal TypeErrors
+          const subtotal = Number(cartData.price) || 0;
           
           const productHTML = `
               <div class="product">
@@ -595,7 +600,7 @@
                       <div class="product-name">${cartData.name}</div>
                       <div class="product-meta">Digital Node • Immediate Provisioning</div>
                   </div>
-                  <div class="product-price">$${cartData.price.toFixed(2)}</div>
+                  <div class="product-price">₹${subtotal.toFixed(2)}</div>
               </div>
           `;
           
@@ -604,26 +609,23 @@
               cartHeader.insertAdjacentHTML('afterend', productHTML);
           }
   
-          // Process Financial Logic
-          const subtotal = cartData.price;
-          const taxRate = 0.18; // 18% infrastructure tax
+          const taxRate = 0.18; 
           const taxAmount = subtotal * taxRate;
           const finalTotal = subtotal + taxAmount;
   
           const summaryRows = document.querySelectorAll('.summary .row');
           if (summaryRows.length >= 3) {
               summaryRows[0].querySelector('span:first-child').innerText = 'Subtotal (1 item)';
-              summaryRows[0].querySelector('span:last-child').innerText = `$${subtotal.toFixed(2)}`;
-              document.getElementById('shippingCost').innerText = `$0.00`;
-              summaryRows[2].querySelector('span:last-child').innerText = `$${taxAmount.toFixed(2)}`;
+              summaryRows[0].querySelector('span:last-child').innerText = `₹${subtotal.toFixed(2)}`;
+              document.getElementById('shippingCost').innerText = `₹0.00`;
+              summaryRows[2].querySelector('span:last-child').innerText = `₹${taxAmount.toFixed(2)}`;
           }
           
           const totalElement = document.getElementById('total');
           if (totalElement) {
-              totalElement.innerText = `$${finalTotal.toFixed(2)}`;
+              totalElement.innerText = `₹${finalTotal.toFixed(2)}`;
           }
       } else {
-          // Failsafe back to pricing
           window.location.href = 'pricing.html';
       }
     });
@@ -717,47 +719,68 @@
       e.target.value = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
     });
 
+   // ==========================================
+    // 4. MOCK PAYMENT & MONGODB INJECTION
     // ==========================================
-    // 4. DYNAMIC INVOICE & ORDER COMPLETION
-    // ==========================================
-    document.getElementById('placeOrder')?.addEventListener('click', () => {
+    document.getElementById('placeOrder')?.addEventListener('click', async () => {
       const cartData = JSON.parse(localStorage.getItem('devcoreSelectedTier'));
       const sessionData = JSON.parse(localStorage.getItem('devcoreActiveSession') || '{}');
       
-      if(!cartData) return;
+      if(!cartData) return; 
 
-      const subtotal = cartData.price;
-      const tax = subtotal * 0.18;
-      const finalTotal = subtotal + tax;
+      try {
+          // 1. Send the order data to your Spring Boot Database Pipeline
+          const response = await fetch('http://localhost:8080/api/orders/place', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include', // Sends the JWT cookie!
+              body: JSON.stringify({ 
+                  serviceTier: cartData.name // Send the tier name (e.g. "Backend")
+              })
+          });
 
-      // Dynamically build the text invoice using the selected tier data
-      const invoice = [
-        'DEVCORE STUDIOS - INFRASTRUCTURE INVOICE',
-        '========================================',
-        `Order Date: ${new Date().toLocaleDateString()}`,
-        `Billed To:  ${sessionData.email || 'Guest User'}`,
-        '',
-        `ITEM: ${cartData.name}`.padEnd(40) + `$${subtotal.toFixed(2)}`,
-        `Digital Delivery / Provisioning`.padEnd(40) + `$0.00`,
-        `Infrastructure Tax (18%)`.padEnd(40) + `$${tax.toFixed(2)}`,
-        '------------------------------------------------',
-        `TOTAL PAID`.padEnd(40) + `$${finalTotal.toFixed(2)}`,
-        '',
-        'Thank you for scaling with DevCore Studios!'
-      ].join('\n');
-      
-      const invoiceUrl = URL.createObjectURL(new Blob([invoice], { type: 'text/plain' }));
-      const downloadBtn = document.getElementById('downloadInvoice');
-      if (downloadBtn) {
-        downloadBtn.href = invoiceUrl;
-        downloadBtn.download = `DevCore_Invoice_${new Date().getTime()}.txt`;
+          if (response.ok) {
+              console.log("Order successfully written to MongoDB Atlas!");
+              
+              // 2. The standard invoice generation logic (keep your existing invoice code here)
+              const subtotal = Number(cartData.price) || 0;
+              const tax = subtotal * 0.18;
+              const finalTotal = subtotal + tax;
+              
+              const invoice = [
+                'DEVCORE STUDIOS - INFRASTRUCTURE INVOICE',
+                '========================================',
+                `Order Date: ${new Date().toLocaleDateString()}`,
+                `Billed To:  ${sessionData.email || 'Guest User'}`,
+                '',
+                `ITEM: ${cartData.name}`.padEnd(40) + `₹${subtotal.toFixed(2)}`,
+                `Digital Delivery / Provisioning`.padEnd(40) + `₹0.00`,
+                `Infrastructure Tax (18%)`.padEnd(40) + `₹${tax.toFixed(2)}`,
+                '------------------------------------------------',
+                `TOTAL PAID`.padEnd(40) + `₹${finalTotal.toFixed(2)}`,
+                '',
+                'Thank you for scaling with DevCore Studios!'
+              ].join('\n');
+              
+              const invoiceUrl = URL.createObjectURL(new Blob([invoice], { type: 'text/plain' }));
+              const downloadBtn = document.getElementById('downloadInvoice');
+              if (downloadBtn) {
+                downloadBtn.href = invoiceUrl;
+                downloadBtn.download = `DevCore_Invoice_${new Date().getTime()}.txt`;
+              }
+
+              // 3. Unlock Dashboard & Trigger Apple GSAP Animation
+              localStorage.setItem('devcorePurchasedTier', 'true');
+              localStorage.setItem('devcoreNewPurchase', 'true');
+              document.getElementById('successScreen').classList.add('show');
+              
+          } else {
+              alert("Transaction failed. Secure session may have expired.");
+          }
+      } catch (error) {
+          console.error("Database connection failed:", error);
+          alert("System Error: Could not reach the DevCore Database Engine.");
       }
-
-      // CRITICAL: Mark the user as having purchased a tier so the dashboard unlocks
-      localStorage.setItem('devcorePurchasedTier', 'true');
-
-      // Trigger the success modal
-      document.getElementById('successScreen').classList.add('show');
     });
   </script>
 </body>

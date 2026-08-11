@@ -487,28 +487,84 @@
     // initial render
     renderCalendarList();
 
-    document.addEventListener('DOMContentLoaded', () => {
-    // 1. Verify if the user is logged in
-    const activeSession = localStorage.getItem('devcoreActiveSession');
-    
-    // 2. Check if they have successfully paid for a tier
-    // (We will set this variable in local storage after a successful checkout)
-    const hasPurchasedTier = localStorage.getItem('devcorePurchasedTier'); 
-
-    if (activeSession && !hasPurchasedTier) {
-        console.log("User logged in, but no tier detected. Triggering paywall overlay.");
+  // ==========================================
+    // 📊 MASTER FLOW: SECURITY, TELEMETRY & GSAP ANIMATION
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', async () => {
+        const activeSession = localStorage.getItem('devcoreActiveSession');
+        const hasPurchasedTier = localStorage.getItem('devcorePurchasedTier');
+        const isNewPurchase = localStorage.getItem('devcoreNewPurchase'); 
         
         const overlay = document.getElementById('tierRequirementOverlay');
         const dashboardShell = document.querySelector('.dashboard-shell');
-        
-        // Blur the dashboard background
-        if (dashboardShell) {
-            dashboardShell.classList.add('blur-dashboard');
+        const welcomeScreen = document.getElementById('appleWelcomeScreen');
+        const welcomeText = document.getElementById('appleWelcomeText');
+
+        // 1. Ghost Catching (Not logged in)
+        if (!activeSession) {
+            window.location.href = 'login.html';
+            return;
         }
-        
-        // Show the beautiful Blayzin-themed popup
-        if (overlay) {
-            overlay.classList.add('active');
+
+        // 2. The Paywall (Logged in, but no tier)
+        if (activeSession && !hasPurchasedTier) {
+            if (dashboardShell) dashboardShell.classList.add('blur-dashboard');
+            if (overlay) overlay.classList.add('active');
+            return; 
         }
-    }
-});
+
+        // 3. Fetch Live Telemetry Data quietly in the background
+        try {
+            const response = await fetch('http://localhost:8080/api/telemetry/dashboard', {
+                method: 'GET',
+                credentials: 'include' 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Live telemetry deployed:", data);
+
+                // Inject the numbers into the HTML, but DON'T animate yet
+                const gaugeRing = document.querySelector('.gauge-ring');
+                if (gaugeRing) gaugeRing.dataset.progress = data.sprintProgress; 
+
+                const progressItems = document.querySelectorAll('.progress-item strong');
+                if (progressItems.length >= 3) {
+                    progressItems[0].innerText = `${data.sprintProgress}%`;
+                    progressItems[1].innerText = `${data.completedMilestones} / ${data.totalMilestones}`;
+                    progressItems[2].innerText = data.riskLevel;
+                }
+
+                const taskPills = document.querySelectorAll('.feature-progress .progress-pill strong');
+                if (taskPills.length >= 3) {
+                    taskPills[1].innerText = `${data.completedTasks} tasks`;
+                    taskPills[2].innerText = `${data.remainingTasks} tasks`;
+                }
+            }
+        } catch (error) {
+            console.error("Telemetry fetch failed, using UI fallbacks:", error);
+        }
+
+        // 4. The Grand Reveal (Apple GSAP Sequence)
+        if (isNewPurchase === 'true' && welcomeScreen) {
+            welcomeScreen.style.visibility = 'visible';
+            localStorage.removeItem('devcoreNewPurchase'); // Clear flag
+
+            const tl = gsap.timeline();
+            
+            tl.to(welcomeText, { opacity: 1, duration: 1.2, ease: "power2.inOut" }) 
+              .to(welcomeText, { opacity: 0, duration: 1, delay: 0.8, ease: "power2.inOut" }) 
+              .call(() => welcomeText.innerText = "Deploying Workspace...") 
+              .to(welcomeText, { opacity: 1, duration: 1.2, ease: "power2.inOut" }) 
+              .to(welcomeText, { opacity: 0, duration: 1, delay: 1.2, ease: "power2.inOut" }) 
+              .to(welcomeScreen, { opacity: 0, duration: 1.5, ease: "power2.inOut", onComplete: () => {
+                  welcomeScreen.style.display = 'none'; 
+                  
+                  // 🔥 ONLY animate the gauges AFTER the black screen is gone!
+                  animateGauge();
+              }});
+        } else {
+            // Normal login (no black screen), just animate the gauges immediately
+            animateGauge();
+        }
+    });
